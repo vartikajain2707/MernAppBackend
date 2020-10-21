@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const Shop = require('../Models/ShopModel');
-const { route } = require('./Auth');
 
 router.route('/getShops').get((req, res) => {
      Shop.find()

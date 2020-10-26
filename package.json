@@ -16,7 +16,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "nodemon": "^2.0.6",
-    "stripe": "^8.115.0",
-    "uuid": "^8.3.1"
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "stripe": "^8.116.0",
+    "uuid": "^8.3.1",
+    "validator": "^13.1.17"
   }
 }

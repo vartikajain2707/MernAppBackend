@@ -6,7 +6,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWTSECRET } = require("../Keys");
 
-
 router.post('/signup', (req, res) => {
      const { name, email, password, mobileNumber } = req.body;
      if(!email || !password || !name || !mobileNumber) {

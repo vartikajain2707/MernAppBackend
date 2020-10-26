@@ -1,26 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe');
-const uuid = require('uuid');
+const stripe = require('stripe')('sk_test_51H0PBdDthXXzKqsl0VeeWWGtycmhb2LFx7f5MddNGLnFAG7qua2oxqTVzkxHcA6SnGzg2TOy4tXxEcfUFFAYM2R000oCUoCbDL');
 
-router.post('/checkout', (req, res) => {
-     const { products, token, sum } = req.body;
-     console.log("Product : ", products);
-     console.log("Product Price : ", sum);
-     const idempontencyKey = uuid();
-
-     return stripe.customers.create({
-          email: token.email,
-          source: token.id
-     }).then(customer => {
-          stripe.charges.create({
-               amount: sum*100,
-               currency: 'INR',
-               customer: customer.id,
-               receipt_email: token.email,
-               description: product.name
-          }, {idempontencyKey})
-     }).then(result => res.status(200).json(result)).catch(err => { console.log(err) });
+const calculateAmount = (items) => {
+     console.log(items);
+     let sum = 0;
+     for (let i = 0; i < items.length; i++) {
+          sum += items[i].amount*items[i].quantity;
+     }
+     return sum*100;
+}
+router.post("/create-payment-intent", async (req, res) => {
+     const { items, amount, email } = req.body;
+     const customer = await stripe.customers.create();
+     // Create a PaymentIntent with the order amount and currency
+     const paymentIntent = await stripe.paymentIntents.create({
+       customer: customer.id,
+       setup_future_usage: "off_session",
+       amount: calculateAmount(items),
+       currency: "inr",
+       receipt_email: email
+     });
+   
+     res.send({
+       clientSecret: paymentIntent.client_secret
+     });
 });
 
 module.exports = router;

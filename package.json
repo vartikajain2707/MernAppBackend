@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server"
+    "start": "node server.js"
   },
   "author": "Akshat Atray",
   "license": "MIT",
@@ -25,5 +25,8 @@
     "stripe": "^8.116.0",
     "uuid": "^8.3.1",
     "validator": "^13.1.17"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }

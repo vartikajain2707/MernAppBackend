@@ -11,17 +11,14 @@ const calculateAmount = (items) => {
      return sum*100;
 }
 router.post("/create-payment-intent", async (req, res) => {
-     const { items, amount, email } = req.body;
-     const customer = await stripe.customers.create();
-     // Create a PaymentIntent with the order amount and currency
+     const { items, name } = req.body;
+     const customer = await stripe.customers.create({ name });
      const paymentIntent = await stripe.paymentIntents.create({
        customer: customer.id,
        setup_future_usage: "off_session",
        amount: calculateAmount(items),
        currency: "inr",
-       receipt_email: email
      });
-   
      res.send({
        clientSecret: paymentIntent.client_secret
      });
